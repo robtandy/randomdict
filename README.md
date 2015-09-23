@@ -26,6 +26,8 @@ If you need random key access and cannot afford the time penalty of the above me
     r['a'] = True
     r['b'] = 2
 
+    print r.random_key()
+    print r.random_value()
     print r.random_item()
 ```
 
