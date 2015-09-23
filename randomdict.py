@@ -5,6 +5,11 @@ __version__ = '0.1.0'
 
 class RandomDict(MutableMapping):
     def __init__(self, *args, **kwargs):
+        """ Create RandomDict object with contents specified by arguments.
+        Any argument
+        :param *args:       dictionaries whose contents get added to this dict
+        :param **kwargs:    key, value pairs will be added to this dict
+        """
         # mapping of keys to array positions
         self.keys = {}
         self.values = []
@@ -57,12 +62,15 @@ class RandomDict(MutableMapping):
         return self.last_index + 1
 
     def random_key(self):
+        """ Return a random key from this dictionary in O(1) time """
         i = random.randint(0, self.last_index)
         return self.values[i][0]
 
     def random_value(self):
+        """ Return a random value from this dictionary in O(1) time """
         return self[self.random_key()]
 
     def random_item(self):
+        """ Return a random key-value pair from this dictionary in O(1) time """
         k = self.random_key()
         return k, self[k]
