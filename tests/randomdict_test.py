@@ -39,7 +39,9 @@ def test_random_value():
 def test_random_key():
     import string
 
-    r = RandomDict({k:1 for k in string.ascii_lowercase})
+    r = RandomDict()
+    for k in string.ascii_lowercase:
+        r[k] = 1
     keyset = set(string.ascii_lowercase)
 
     while len(r) > 0:
@@ -50,7 +52,9 @@ def test_random_key():
 def test_random_item():
     import string
 
-    r = RandomDict({k:1 for k in string.ascii_lowercase})
+    r = RandomDict()
+    for k in string.ascii_lowercase:
+        r[k] = 1
     keyset = set(string.ascii_lowercase)
 
     while len(r) > 0:
