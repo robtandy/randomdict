@@ -1,4 +1,4 @@
-## RandomDict ##
+## RandomDict [![Build Status](https://travis-ci.org/robtandy/randomdict.svg)](https://travis-ci.org/robtandy/randomdict)##
 
 #### What is it?
 Random dict is a dictionary compatible with python's `dict` but with a few methods added to facilitate fast random access of elements.  It inherits from `collections.MutableMapping` so it behaves exactly like a python `dict` once created.
