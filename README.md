@@ -14,7 +14,7 @@ If you need to randomly access keys in a python dictionary, you have two choices
 If you need random key access and cannot afford the time penalty of the above methods, then `randomdict` is probably what you are looking for.
 
 #### Installation
-`randomdict` works and is tested on python2.6+, python3.1+
+`randomdict` works and is tested on python2.6+, python3.2+
 
 `pip install randomdict`
 
