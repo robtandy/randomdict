@@ -11,6 +11,8 @@ If you need to randomly access keys in a python dictionary, you have two choices
 1. `random.sample(the_dict, 1)` or `random.choice(list(the_dict))` both of these are O(n)
 2.  `the_dict.pop()` This is O(1) but returns an arbitrary, rather than strictly random item.  The order of items returned depends on the underlying implentation of the dictionary.
 
+If you need random key access and cannot afford the time penalty of the above methods, then `randomdict` is probably what you are looking for.
+
 #### Installation
 `randomdict` works and is tested on python2.6+, python3.1+
 
