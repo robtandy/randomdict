@@ -1,7 +1,7 @@
 ## RandomDict [![Build Status](https://travis-ci.org/robtandy/randomdict.svg)](https://travis-ci.org/robtandy/randomdict)##
 
 #### What is it?
-Random dict is a dictionary compatible with python's `dict` but with a few methods added to facilitate fast random access of elements.  It inherits from `collections.MutableMapping` so it behaves exactly like a python `dict` once created.
+Random dict is a dictionary compatible with python's `dict` but with a few methods added to facilitate fast random access of elements.  It inherits from `collections.MutableMapping` so it behaves exactly like a python `dict`, once created.
 
 #### Why?
 Python's `dict` data structure doesn't provide fast random access to elements.  Existing ways are O(n) scaling, and get slow when the number of elements is large.
@@ -18,7 +18,9 @@ If you need random key access and cannot afford the time penalty of the above me
 
 `pip install randomdict`
 
-#### How?
+#### How do i use it?
+Other than creating one, use it just like a python `dict`.
+
 ```python
     from randomdict import RandomDict
     
