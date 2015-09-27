@@ -1,7 +1,7 @@
 from collections import MutableMapping
 import random
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 class RandomDict(MutableMapping):
     def __init__(self, *args, **kwargs):
@@ -63,6 +63,9 @@ class RandomDict(MutableMapping):
 
     def random_key(self):
         """ Return a random key from this dictionary in O(1) time """
+        if len(self) == 0:
+            raise KeyError("RandomDict is empty")
+        
         i = random.randint(0, self.last_index)
         return self.values[i][0]
 

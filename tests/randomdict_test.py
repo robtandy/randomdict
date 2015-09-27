@@ -63,3 +63,17 @@ def test_random_item():
         assert v == 1
         del r[k]
 
+@raises(KeyError)
+def test_empty_random_key():
+    r = RandomDict()
+    r.random_key()
+
+@raises(KeyError)
+def test_empty_random_value():
+    r = RandomDict()
+    r.random_value()
+
+@raises(KeyError)
+def test_empty_random_item():
+    r = RandomDict()
+    r.random_item()
