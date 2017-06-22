@@ -1,9 +1,18 @@
+# coding=utf-8
+"""
+    Python dictionaries with O(1) random element access.
+"""
 from collections import MutableMapping
 import random
 
 __version__ = '0.2.0'
 
+
 class RandomDict(MutableMapping):
+    """
+    Python dictionaries with O(1) random element access.
+    """
+
     def __init__(self, *args, **kwargs):
         """ Create RandomDict object with contents specified by arguments.
         Any argument
@@ -20,15 +29,15 @@ class RandomDict(MutableMapping):
     def __setitem__(self, key, val):
         if key in self.keys:
             i = self.keys[key]
+            self.values[i] = (key, val)
         else:
             self.last_index += 1
             i = self.last_index
-
-        self.values.append((key, val))
+            self.values.append((key, val))
         self.keys[key] = i
-    
+
     def __delitem__(self, key):
-        if not key in self.keys:
+        if key not in self.keys:
             raise KeyError
 
         # index of item to delete is i
@@ -47,9 +56,9 @@ class RandomDict(MutableMapping):
         self.last_index -= 1
         # remove deleted key
         del self.keys[key]
-    
+
     def __getitem__(self, key):
-        if not key in self.keys:
+        if key not in self.keys:
             raise KeyError
 
         i = self.keys[key]
@@ -65,7 +74,7 @@ class RandomDict(MutableMapping):
         """ Return a random key from this dictionary in O(1) time """
         if len(self) == 0:
             raise KeyError("RandomDict is empty")
-        
+
         i = random.randint(0, self.last_index)
         return self.values[i][0]
 
