@@ -1,4 +1,10 @@
-from collections import MutableMapping
+
+# From https://stackoverflow.com/a/70870131                                                                                                                          
+if sys.version_info[:2] >= (3, 8):
+    from collections.abc import MutableMapping
+else:
+    from collections import MutableMapping
+
 import random
 
 __version__ = '0.2.0'
