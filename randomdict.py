@@ -28,10 +28,10 @@ class RandomDict(MutableMapping):
     def __setitem__(self, key, val):
         if key in self.keys:
             i = self.keys[key]
-        else:
-            self.last_index += 1
-            i = self.last_index
-
+            self.values[i] = (key, val)
+            return
+        self.last_index += 1
+        i = self.last_index
         self.values.append((key, val))
         self.keys[key] = i
     
