@@ -1,15 +1,14 @@
 
 # From https://stackoverflow.com/a/70870131
 
-import sys 
-if sys.version_info[:2] >= (3, 8):
+try:
     from collections.abc import MutableMapping
-else:
+except ImportError:
     from collections import MutableMapping
 
 import random
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 class RandomDict(MutableMapping):
     def __init__(self, *args, **kwargs):
