@@ -11,18 +11,12 @@ import random
 __version__ = '0.2.1'
 
 class RandomDict(MutableMapping):
-    def __init__(self, *args, **kwargs):
-        """ Create RandomDict object with contents specified by arguments.
-        Any argument
-        :param *args:       dictionaries whose contents get added to this dict
-        :param **kwargs:    key, value pairs will be added to this dict
-        """
-        # mapping of keys to array positions
+    def __init__(self, default_factory=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.default_factory = default_factory
         self.keys = {}
         self.values = []
         self.last_index = -1
-
-        self.update(*args, **kwargs)
 
     def __setitem__(self, key, val):
         if key in self.keys:
@@ -53,6 +47,10 @@ class RandomDict(MutableMapping):
         del self.keys[key]
     
     def __getitem__(self, key):
+        if key not in self.keys:
+            if self.default_factory is None:
+                raise KeyError(key)
+            self[key] = self.default_factory()
         i = self.keys[key]
         return self.values[i][1]
 
