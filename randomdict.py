@@ -1,5 +1,7 @@
 
-# From https://stackoverflow.com/a/70870131                                                                                                                          
+# From https://stackoverflow.com/a/70870131
+
+import sys 
 if sys.version_info[:2] >= (3, 8):
     from collections.abc import MutableMapping
 else:
