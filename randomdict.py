@@ -19,14 +19,14 @@ class RandomDict(MutableMapping):
         self.last_index = -1
 
     def __setitem__(self, key, val):
-        if key in self.keys:
-            i = self.keys[key]
+        i = self.keys.get(key, -1)
+        if i > -1:
             self.values[i] = (key, val)
-            return
-        self.last_index += 1
-        i = self.last_index
-        self.values.append((key, val))
-        self.keys[key] = i
+        else:
+            self.last_index += 1
+            i = self.last_index
+            self.values.append((key, val))
+            self.keys[key] = i
     
     def __delitem__(self, key):
         # index of item to delete is i
@@ -76,3 +76,23 @@ class RandomDict(MutableMapping):
         """ Return a random key-value pair from this dictionary in O(1) time """
         k = self.random_key()
         return k, self[k]
+
+def replace_dicts():
+    # Replace dict with RandomDict
+    import builtins
+    builtins.dict = RandomDict
+
+    # Replace defaultdict with RandomDict
+
+    # stash the original import for use in a custom importer
+    _original_import = builtins.__import__
+
+    def _custom_import(name, globals=None, locals=None, fromlist=(), level=0):
+        """Intercept imports of defaultdict to route to RandomDict"""
+        module = _original_import(name, globals, locals, fromlist, level)
+        if name == "collections" or (fromlist and "defaultdict" in fromlist):
+            module.__dict__['defaultdict'] = RandomDict
+        return module
+
+    # Monkey-patch __import__
+    builtins.__import__ = _custom_import
