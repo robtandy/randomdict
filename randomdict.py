@@ -1,36 +1,34 @@
-from collections import MutableMapping
+
+# From https://stackoverflow.com/a/70870131
+
+try:
+    from collections.abc import MutableMapping
+except ImportError:
+    from collections import MutableMapping
+
 import random
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 class RandomDict(MutableMapping):
-    def __init__(self, *args, **kwargs):
-        """ Create RandomDict object with contents specified by arguments.
-        Any argument
-        :param *args:       dictionaries whose contents get added to this dict
-        :param **kwargs:    key, value pairs will be added to this dict
-        """
-        # mapping of keys to array positions
+    def __init__(self, default_factory=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.default_factory = default_factory
         self.keys = {}
         self.values = []
         self.last_index = -1
 
-        self.update(*args, **kwargs)
-
     def __setitem__(self, key, val):
-        if key in self.keys:
-            i = self.keys[key]
+        i = self.keys.get(key, -1)
+        if i > -1:
+            self.values[i] = (key, val)
         else:
             self.last_index += 1
             i = self.last_index
-
-        self.values.append((key, val))
-        self.keys[key] = i
+            self.values.append((key, val))
+            self.keys[key] = i
     
     def __delitem__(self, key):
-        if not key in self.keys:
-            raise KeyError
-
         # index of item to delete is i
         i = self.keys[key]
         # last item in values array is
@@ -49,9 +47,10 @@ class RandomDict(MutableMapping):
         del self.keys[key]
     
     def __getitem__(self, key):
-        if not key in self.keys:
-            raise KeyError
-
+        if key not in self.keys:
+            if self.default_factory is None:
+                raise KeyError(key)
+            self[key] = self.default_factory()
         i = self.keys[key]
         return self.values[i][1]
 
@@ -77,3 +76,23 @@ class RandomDict(MutableMapping):
         """ Return a random key-value pair from this dictionary in O(1) time """
         k = self.random_key()
         return k, self[k]
+
+def replace_dicts():
+    # Replace dict with RandomDict
+    import builtins
+    builtins.dict = RandomDict
+
+    # Replace defaultdict with RandomDict
+
+    # stash the original import for use in a custom importer
+    _original_import = builtins.__import__
+
+    def _custom_import(name, globals=None, locals=None, fromlist=(), level=0):
+        """Intercept imports of defaultdict to route to RandomDict"""
+        module = _original_import(name, globals, locals, fromlist, level)
+        if name == "collections" or (fromlist and "defaultdict" in fromlist):
+            module.__dict__['defaultdict'] = RandomDict
+        return module
+
+    # Monkey-patch __import__
+    builtins.__import__ = _custom_import
